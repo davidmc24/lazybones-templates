@@ -1,4 +1,4 @@
-You have created a [Dropwizard][] applicatin using Lazybones. The template created a basic build system using [Gradle][], configured to
+You have created a [Dropwizard][] application using Lazybones. The template created a basic build system using [Gradle][], configured to
 allow both Java and [Groovy][] source files, as well as tests written using [Spock][]. Additionally, the template created basic
 infrastructure for dependency injection using [Guice][].
 
