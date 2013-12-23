@@ -11,11 +11,14 @@ buildscript {
     }
 }
 
+apply plugin: "idea"
 apply plugin: "codenarc"
 apply plugin: "groovy"
 apply plugin: "shadow"
 
-test.dependsOn codenarcMain // Run codenarc before the test phase begins
+// Run codenarc before the test phase begins
+test.dependsOn codenarcMain
+test.dependsOn codenarcTest
 
 repositories {
     jcenter()
