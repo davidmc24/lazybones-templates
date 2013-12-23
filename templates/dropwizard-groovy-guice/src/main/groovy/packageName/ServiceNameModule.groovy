@@ -2,6 +2,9 @@ package ${packageName}
 
 import com.google.inject.AbstractModule
 
+/**
+ * Main module for the application.
+ */
 class ${serviceName}Module extends AbstractModule {
 
     private final ${serviceName}Configuration configuration

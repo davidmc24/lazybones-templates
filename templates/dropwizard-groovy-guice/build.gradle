@@ -1,48 +1,38 @@
 buildscript {
     repositories {
         jcenter()
-        //mavenCentral()
-        //maven {
-        //    url "http://repo.jfrog.org/artifactory/gradle-plugins"
-        //}
         maven {
             name "johnrengelman/gradle-plugins"
             url "http://dl.bintray.com/content/johnrengelman/gradle-plugins"
         }
     }
     dependencies {
-        //classpath "net.saliman:gradle-cobertura-plugin:1.1.0"
-        //classpath "org.jfrog.buildinfo:build-info-extractor-gradle:2.0.16"
         classpath "org.gradle.plugins:shadow:0.7.4"
     }
 }
 
-//apply plugin: "cobertura"
-//apply plugin: "codenarc"
+apply plugin: "codenarc"
 apply plugin: "groovy"
-//apply plugin: "maven"
 apply plugin: "shadow"
 
-// Run code narc before the test phase begins
-//test.dependsOn codenarcMain
+test.dependsOn codenarcMain // Run codenarc before the test phase begins
 
 repositories {
     jcenter()
-    //mavenCentral()
-    // Spock snapshots are available from the Sonatype OSS snapshot repository
-    //maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+    mavenCentral() // Needed for codenarc resolution, for now at least
 }
 
 dependencies {
     def groovyVersion = "2.2.1"
     def dropwizardVersion = "0.6.2"
+    def guiceVersion = "3.0"
 
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile "com.yammer.dropwizard:dropwizard-core:${dropwizardVersion}"
     compile "com.yammer.dropwizard:dropwizard-auth:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-client:${dropwizardVersion}"
     compile "com.yammer.dropwizard:dropwizard-views:${dropwizardVersion}"
-    compile "com.google.inject:guice:3.0"
+    compile "com.google.inject:guice:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-multibindings:${guiceVersion}"
 
     testCompile "com.yammer.dropwizard:dropwizard-testing:${dropwizardVersion}"
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
@@ -62,18 +52,10 @@ jar {
     }
 }
 
-//cobertura {
-//    coverageFormats = ["xml", "html"]
-//    coverageIncludes = ["**/*.java", "**/*.groovy"]
-//    coverageSourceDirs = [sourceSets.main.allSource.srcDirs]
-//}
-
-/*
 codenarc {
-    configFile = rootProject.file("codenarcrule.groovy")
-    reportFormat = System.properties["codeNarcOutput"] ?: "html"
+    configFile = file("config/codenarc/codenarc.groovy")
+    toolVersion = "0.20"
 }
-*/
 
 assemble.dependsOn "shadow" // Include shadowed jar as part of standard project outputs
 shadow {
@@ -86,7 +68,7 @@ task run(dependsOn: "shadow", group: "dropwizard", description: "Run service usi
     def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
         main = "-jar"
-        args = ["${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
+        args = ["${shadow.shadowJar.getPath()}", "server", "config/dev.yaml"]
         systemProperties = props
     }
 }
@@ -96,7 +78,7 @@ task runDebug(dependsOn: "shadow", group: "dropwizard", description: "Run servic
     def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
         main = "-jar"
-        args = ["${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
+        args = ["${shadow.shadowJar.getPath()}", "server", "config/dev.yaml"]
         systemProperties = props
         debug = true
     }
