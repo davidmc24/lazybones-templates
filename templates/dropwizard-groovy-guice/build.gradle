@@ -3,11 +3,11 @@ buildscript {
         jcenter()
         //mavenCentral()
         //maven {
-        //    url 'http://repo.jfrog.org/artifactory/gradle-plugins'
+        //    url "http://repo.jfrog.org/artifactory/gradle-plugins"
         //}
         //maven {
-        //    name 'Gradle Shadow'
-        //    url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
+        //    name "Gradle Shadow"
+        //    url "http://dl.bintray.com/content/johnrengelman/gradle-plugins"
         //}
     }
     dependencies {
@@ -17,14 +17,11 @@ buildscript {
     }
 }
 
-//apply plugin: 'cobertura'
-//apply plugin: 'codenarc'
-//apply plugin: 'groovy'
-//apply plugin: 'maven'
-//apply plugin: 'shadow'
-
-version=currentVersion
-group=currentGroup
+//apply plugin: "cobertura"
+//apply plugin: "codenarc"
+//apply plugin: "groovy"
+//apply plugin: "maven"
+//apply plugin: "shadow"
 
 // Run code narc before the test phase begins
 test.dependsOn codenarcMain
@@ -58,7 +55,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "${mainClass}"
+        attributes "Main-Class": "${packageName}.${serviceName}Service"
         attributes "Built-Date": new Date() //now
         attributes "Built-By": System.getProperty("user.name")
         attributes "Build-Jdk": System.getProperty("java.version")
@@ -86,20 +83,20 @@ shadow {
 
 task run(dependsOn: "shadow", group: "dropwizard", description: "Run service using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
-    def props = project.ext.properties.findAll { it.key.startsWith('dw') }
+    def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
-        main = '-jar'
-        args = ["${shadow.shadowJar.getPath()}", 'server', 'dev_config.yml']
+        main = "-jar"
+        args = ["${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
         systemProperties = props
     }
 }
 
 task runDebug(dependsOn: "shadow", group: "dropwizard", description: "Run service with debugging enabled using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
-    def props = project.ext.properties.findAll { it.key.startsWith('dw') }
+    def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
-        main = '-jar'
-        args = ["${shadow.shadowJar.getPath()}", 'server', 'dev_config.yml']
+        main = "-jar"
+        args = ["${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
         systemProperties = props
         debug = true
     }
