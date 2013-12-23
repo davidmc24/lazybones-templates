@@ -3,6 +3,7 @@ import java.nio.file.FileVisitResult
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.SimpleFileVisitor
+import java.nio.file.StandardCopyOption
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.regex.Matcher
 
@@ -21,14 +22,13 @@ Files.walkFileTree(templatePath, new SimpleFileVisitor<Path>() {
     FileVisitResult visitFile(Path sourceFile, BasicFileAttributes attrs) {
         def targetName = sourceFile.fileName.toString().replace("ServiceName", Matcher.quoteReplacement(filterProperties.serviceName))
         def targetFile = groovyPackagePath.resolve(targetName)
-        Files.move(sourceFile, targetFile)
+        Files.move(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING)
         return FileVisitResult.CONTINUE
     }
 })
 Files.delete(templatePath)
 
 processTemplates("gradle.properties", filterProperties)
-processTemplates("build.gradle", filterProperties)
 processTemplates("src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Configuration.groovy", filterProperties)
 processTemplates("src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Service.groovy", filterProperties)
 processTemplates("src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Module.groovy", filterProperties)

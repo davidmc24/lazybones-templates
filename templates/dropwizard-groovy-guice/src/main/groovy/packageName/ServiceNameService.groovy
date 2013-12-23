@@ -5,9 +5,6 @@ import com.google.inject.Injector
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.config.Bootstrap
 import com.yammer.dropwizard.config.Environment
-import com.yammer.dropwizard.db.DatabaseConfiguration
-import com.yammer.dropwizard.hibernate.HibernateBundle
-import com.yammer.dropwizard.migrations.MigrationsBundle
 
 class ${serviceName}Service extends Service<${serviceName}Configuration> {
 
