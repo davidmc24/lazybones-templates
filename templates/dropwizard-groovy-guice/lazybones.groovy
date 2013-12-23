@@ -1,28 +1,34 @@
+import java.nio.file.Files
+import java.nio.file.FileVisitResult
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.SimpleFileVisitor
+import java.nio.file.attribute.BasicFileAttributes
+import java.util.regex.Matcher
+
 def filterProperties = [:]
-filterProperties.group = ask("Define value for 'group': ")
-filterProperties.version = ask("Define value for 'version' [0.1.0]: ", "0.1.0")
+filterProperties.group = ask("What is the group ID for this project? (optional) ", null, "group")
+filterProperties.version = ask("What is the project's initial version? [0.1.0] ", "0.1.0", "version")
+filterProperties.packageName = ask("What is the main package for the project? [app] ", "app", "packageName")
+filterProperties.serviceName = ask("What is the main service for the project? [Main] ", "Main", "serviceName")
 
-filterProperties.packageName = ask("Define value for package structure [app]: ", "app")
-filterProperties.serviceName = ask("Define value for the name of the service [Main]: ", "Main")
+// move template files to user specified package and name
+def packageDirectoryStructure = filterProperties.packageName.replace(".", "/")
+def templatePath = Paths.get("${targetDir}/src/main/groovy/packageName")
+def groovyPackagePath = Paths.get("${targetDir}/src/main/groovy/${packageDirectoryStructure}")
+Files.createDirectories(groovyPackagePath)
+Files.walkFileTree(templatePath, new SimpleFileVisitor<Path>() {
+    FileVisitResult visitFile(Path sourceFile, BasicFileAttributes attrs) {
+        def targetName = sourceFile.fileName.toString().replace("ServiceName", Matcher.quoteReplacement(filterProperties.serviceName))
+        def targetFile = groovyPackagePath.resolve(targetName)
+        Files.move(sourceFile, targetFile)
+        return FileVisitResult.CONTINUE
+    }
+})
+Files.delete(templatePath)
 
-filterFiles("gradle.properties", filterProperties)
-filterFiles("build.gradle", filterProperties)
-filterFiles("src/main/groovy/packageName/ServiceNameConfiguration.groovy", filterProperties)
-filterFiles("src/main/groovy/packageName/ServiceNameService.groovy", filterProperties)
-filterFiles("src/main/groovy/packageName/ServiceNameModule.groovy", filterProperties)
-
-// move to user specified directory structure
-def packageDirectoryStructure = filterProperties.packageName.replace('.', '/')
-new AntBuilder().move( todir: "${targetDir}/src/main/groovy/${packageDirectoryStructure}") {
-    fileset( dir:"${targetDir}/src/main/groovy/packageName" )
-}
-
-// move to user specified service name
-def configurationFile = new File("${targetDir}/src/main/groovy/${packageDirectoryStructure}/ServiceNameConfiguration.groovy")
-configurationFile.renameTo("${targetDir}/src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Configuration.groovy")
-
-def serviceFile = new File("${targetDir}/src/main/groovy/${packageDirectoryStructure}/ServiceNameService.groovy")
-serviceFile.renameTo("${targetDir}/src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Service.groovy")
-
-def moduleFile = new File("${targetDir}/src/main/groovy/${packageDirectoryStructure}/ServiceNameModule.groovy")
-moduleFile.renameTo("${targetDir}/src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Module.groovy")
+processTemplates("gradle.properties", filterProperties)
+processTemplates("build.gradle", filterProperties)
+processTemplates("src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Configuration.groovy", filterProperties)
+processTemplates("src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Service.groovy", filterProperties)
+processTemplates("src/main/groovy/${packageDirectoryStructure}/${filterProperties.serviceName}Module.groovy", filterProperties)

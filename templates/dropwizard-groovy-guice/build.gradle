@@ -37,17 +37,17 @@ dependencies {
     def groovyVersion = "2.2.1"
     def dropwizardVersion = "0.6.2"
 
-    groovy "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    groovy "org.codehaus.groovy:groovy-all:\${groovyVersion}"
 
-    compile "com.yammer.dropwizard:dropwizard-core:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-testing:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-hibernate:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-migrations:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-auth:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-client:${dropwizardVersion}"
-    compile "com.yammer.dropwizard:dropwizard-views:${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-core:\${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-testing:\${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-hibernate:\${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-migrations:\${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-auth:\${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-client:\${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-views:\${dropwizardVersion}"
 
-    testCompile "com.yammer.dropwizard:dropwizard-testing:${dropwizardVersion}"
+    testCompile "com.yammer.dropwizard:dropwizard-testing:\${dropwizardVersion}"
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     testRuntime "cglib:cglib-nodep:2.2.2" // allows mocking of classes (in addition to interfaces)
     testRuntime "org.objenesis:objenesis:1.2" // allows mocking of classes without default constructor (together with CGLIB)
@@ -86,7 +86,7 @@ task run(dependsOn: "shadow", group: "dropwizard", description: "Run service usi
     def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
         main = "-jar"
-        args = ["${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
+        args = ["\${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
         systemProperties = props
     }
 }
@@ -96,7 +96,7 @@ task runDebug(dependsOn: "shadow", group: "dropwizard", description: "Run servic
     def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
         main = "-jar"
-        args = ["${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
+        args = ["\${shadow.shadowJar.getPath()}", "server", "conf/dev.yaml"]
         systemProperties = props
         debug = true
     }
