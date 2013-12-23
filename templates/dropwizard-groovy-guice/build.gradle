@@ -35,7 +35,7 @@ dependencies {
     compile "com.yammer.dropwizard:dropwizard-auth:${dropwizardVersion}"
     compile "com.yammer.dropwizard:dropwizard-views:${dropwizardVersion}"
     compile "com.google.inject:guice:${guiceVersion}"
-    compile "com.google.inject.extensions:guice-multibindings:${guiceVersion}"
+    compile "com.fiestacabin.dropwizard.guice:dropwizard-guice:0.6.2"
 
     testCompile "com.yammer.dropwizard:dropwizard-testing:${dropwizardVersion}"
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"

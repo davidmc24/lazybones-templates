@@ -1,0 +1,9 @@
+---
+# Configuration goes here
+http:
+  port: 8080
+  adminPort: 8081
+
+logging:
+  level: INFO
+...

@@ -1,14 +1,14 @@
 package ${packageName}
 
+import com.fiestacabin.dropwizard.guice.AutoConfigService
 import com.google.inject.Guice
-import com.yammer.dropwizard.Service
+import com.google.inject.Injector
 import com.yammer.dropwizard.config.Bootstrap
-import com.yammer.dropwizard.config.Environment
 
 /**
  * Entry-point service for the application.
  */
-class ${serviceName}Service extends Service<${serviceName}Configuration> {
+class ${serviceName}Service extends AutoConfigService<${serviceName}Configuration> {
 
     public static final String APP_ID = "${serviceName}"
 
@@ -18,16 +18,16 @@ class ${serviceName}Service extends Service<${serviceName}Configuration> {
 
     @Override
     void initialize(Bootstrap<${serviceName}Configuration> bootstrap) {
+        // dropwizard-guice provides a constructor which would eliminate the need for this.
+        // However, the current version doesn't seem to initialize Reflections properly in that case.
         bootstrap.name = APP_ID
     }
 
     @Override
-    void run(${serviceName}Configuration configuration, Environment environment) throws ClassNotFoundException {
-        def injector = Guice.createInjector(
+    protected Injector createInjector(${serviceName}Configuration configuration) {
+        Guice.createInjector(
             new ${serviceName}Module(configuration)
         )
-        // TODO: add resources, etc. from injector
-        // TODO: use multibindings?  https://code.google.com/p/google-guice/wiki/Multibindings
     }
 
 }
