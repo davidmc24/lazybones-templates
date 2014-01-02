@@ -56,8 +56,13 @@ jar {
 }
 
 codenarc {
-    configFile = file("config/codenarc/codenarc.groovy")
     toolVersion = "0.20"
+}
+codenarcMain {
+    configFile = file("gradle/codenarcMain.groovy")
+}
+codenarcTest {
+    configFile = file("gradle/codenarcTest.groovy")
 }
 
 assemble.dependsOn "shadow" // Include shadowed jar as part of standard project outputs

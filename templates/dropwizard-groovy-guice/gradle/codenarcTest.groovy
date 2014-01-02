@@ -1,9 +1,9 @@
 ruleset {
 
     description """
-        A Sample Groovy RuleSet containing all CodeNarc Rules, grouped by category.
-        You can use this as a template for your own custom RuleSet.
-        Just delete the rules that you don't want to include.
+        A Groovy RuleSet for the test source set.
+        It was originally based on the 0.20 'all CodeNarc Rules, grouped by category' sample file.
+        Any undesired rules can be commented-out or removed.
         """
 
     // rulesets/basic.xml
@@ -312,7 +312,7 @@ ruleset {
     AbcComplexity   // DEPRECATED: Use the AbcMetric rule instead. Requires the GMetrics jar
     AbcMetric   // Requires the GMetrics jar
     ClassSize 
-    //CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
+    // CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
     CyclomaticComplexity   // Requires the GMetrics jar
     MethodCount 
     MethodSize 
