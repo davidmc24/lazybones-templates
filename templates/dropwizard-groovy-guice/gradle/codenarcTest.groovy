@@ -122,9 +122,10 @@ ruleset {
     DuplicateStringLiteral 
     
     // rulesets/enhanced.xml
-    CloneWithoutCloneable 
-    JUnitAssertEqualsConstantActualValue 
-    UnsafeImplementationAsMap 
+    // Enhanced rules aren't yet supported in Gradle
+    // CloneWithoutCloneable 
+    // JUnitAssertEqualsConstantActualValue 
+    // UnsafeImplementationAsMap 
     
     // rulesets/exceptions.xml
     CatchArrayIndexOutOfBoundsException 
