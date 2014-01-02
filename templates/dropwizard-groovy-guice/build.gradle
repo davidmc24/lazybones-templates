@@ -22,7 +22,6 @@ test.dependsOn codenarcTest
 
 repositories {
     jcenter()
-    mavenCentral() // Needed for codenarc resolution, for now at least
 }
 
 dependencies {
