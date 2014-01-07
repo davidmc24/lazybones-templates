@@ -18,3 +18,4 @@ To work with the project:
 [Groovy]: http://groovy.codehaus.org/
 [Spock]: https://code.google.com/p/spock/
 [Guice]: https://code.google.com/p/google-guice/
+[CodeNarc]: http://codenarc.sourceforge.net/
