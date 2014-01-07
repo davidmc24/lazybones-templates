@@ -1,13 +1,9 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name "johnrengelman/gradle-plugins"
-            url "http://dl.bintray.com/content/johnrengelman/gradle-plugins"
-        }
     }
     dependencies {
-        classpath "org.gradle.plugins:shadow:0.7.4"
+        classpath "org.gradle.plugins:shadow:0.8"
     }
 }
 
