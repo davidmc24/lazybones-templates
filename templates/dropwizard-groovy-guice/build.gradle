@@ -61,13 +61,13 @@ codenarcTest {
     configFile = file("gradle/codenarcTest.groovy")
 }
 
-assemble.dependsOn "shadow" // Include shadowed jar as part of standard project outputs
+assemble.dependsOn "shadowJar" // Include shadowed jar as part of standard project outputs
 shadow {
     exclude "META-INF/*.DSA"
     exclude "META-INF/*.RSA"
 }
 
-task run(dependsOn: "shadow", group: "dropwizard", description: "Run service using dev configuration") << {
+task run(dependsOn: "shadowJar", group: "dropwizard", description: "Run service using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
     def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
@@ -77,7 +77,7 @@ task run(dependsOn: "shadow", group: "dropwizard", description: "Run service usi
     }
 }
 
-task runDebug(dependsOn: "shadow", group: "dropwizard", description: "Run service with debugging enabled using dev configuration") << {
+task runDebug(dependsOn: "shadowJar", group: "dropwizard", description: "Run service with debugging enabled using dev configuration") << {
     // Grab any dw. properties that are specified on the command line and pass to the Java process (i.e. dw.http.port=8080)
     def props = project.ext.properties.findAll { it.key.startsWith("dw") }
     javaexec {
