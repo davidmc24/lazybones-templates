@@ -31,6 +31,7 @@ dependencies {
 
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile "com.yammer.dropwizard:dropwizard-core:${dropwizardVersion}"
+    compile "com.yammer.dropwizard:dropwizard-client:${dropwizardVersion}"
     compile "com.yammer.dropwizard:dropwizard-auth:${dropwizardVersion}"
     compile "com.yammer.dropwizard:dropwizard-views:${dropwizardVersion}"
     compile "com.google.inject:guice:${guiceVersion}"
