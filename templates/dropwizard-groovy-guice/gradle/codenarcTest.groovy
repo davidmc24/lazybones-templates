@@ -285,7 +285,7 @@ ruleset {
     FactoryMethodName 
     FieldName 
     InterfaceName 
-    MethodName 
+    // MethodName // This doesn't make sense for Spock tests, which often use spaces in the names
     ObjectOverrideMisspelledMethodName 
     PackageName 
     ParameterName 
